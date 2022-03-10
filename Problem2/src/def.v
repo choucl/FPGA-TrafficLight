@@ -16,5 +16,16 @@
 /* controller size define */
 `define SW_SZ 2
 `define BTN_SZ 3
-`define LED_SZ 3    // len for RGB LED
+`define LED_SZ 2    // len for RGB LED
 `define TIME_SZ 4   // len for time
+
+`define DEFAULT_GR 4'd5
+`define DEFAULT_YR 4'd1
+`define DEFAULT_RR 4'd1
+
+/* define adjusting modes */
+`define NORMAL 2'b00
+`define ADJ_GR 2'b01
+`define ADJ_YR 2'b10
+`define ADJ_RR 2'b11
+
