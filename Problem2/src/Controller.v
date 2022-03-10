@@ -14,6 +14,7 @@ module Controller (
     output reg [`TIME_SZ-1:0] led_o
 );
 
+    // traffic light state definition
     parameter GR   = 3'd0,
               YR   = 3'd1,
               RR_1 = 3'd2,
@@ -21,8 +22,8 @@ module Controller (
               RY   = 3'd4,
               RR_2 = 3'd5;
 
-    reg [2:0] current;  // current traffic light state    
-    reg [`TIME_SZ-1:0] ctime;
+    reg [2:0] current;             // current traffic light state    
+    reg [`TIME_SZ-1:0] ctime;      // current traffic light count down time
     reg [`TIME_SZ-1:0] grlen = `DEFAULT_GR;
     reg [`TIME_SZ-1:0] yrlen = `DEFAULT_YR;
     reg [`TIME_SZ-1:0] rrlen = `DEFAULT_RR;
@@ -31,11 +32,13 @@ module Controller (
         if (ctime != 0) begin          // time != 0, count down
             ctime <= ctime - 1;
         end else begin                 // time == 0, change state
+            // state transition
             if (current == RR_2) begin
                 current <= GR;
             end else begin
                 current <= current + 3'd1;
             end
+            // change count down time for new state
             if (current == GR || current == RG) begin
                 ctime <= grlen;
             end else if (current == YR || current == RY) begin
@@ -46,6 +49,7 @@ module Controller (
         end
     end
 
+    // switch/btn control
     reg [15:0] db_cnt;  // debounce counter
     always @(posedge clk_i) begin
         if (db_cnt == 16'hffff) begin
@@ -85,6 +89,7 @@ module Controller (
         end
     end
     
+    // change LED color according to different states
     always @(*) begin
         if (sw_i == `NORMAL) begin
             case (current)
