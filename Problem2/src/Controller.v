@@ -30,8 +30,8 @@ module Controller (
     reg [`TIME_SZ-1:0] rrlen = `DEFAULT_RR;
     
     always @(posedge time_i or posedge rst_i) begin
-        if (rst_i) begin 
-            cstate <= GR;
+        if (rst_i == 1'b1) begin 
+            cstate  <= GR;
             ctime   <= `DEFAULT_GR;
         end else begin
             if (ctime != 0) begin          // time != 0, count down
@@ -58,7 +58,7 @@ module Controller (
     // switch/btn control
     reg [27:0] db_cnt;  // debounce counter
     always @(posedge clk_i or posedge rst_i) begin
-        if (rst_i) begin
+        if (rst_i == 1'b1) begin
             db_cnt <= 28'h1ffffff;
             grlen  <= `DEFAULT_GR;
             yrlen  <= `DEFAULT_YR;
