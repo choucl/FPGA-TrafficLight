@@ -84,9 +84,9 @@ module Controller (
                 end else if (btn_i[2] == 1'b1) begin  // minus 1 sec
                     db_cnt <= 0;
                     case (sw_i)
-                        `ADJ_GR: grlen <= (grlen == 0)? grlen : grlen - 1;
-                        `ADJ_YR: yrlen <= (yrlen == 0)? yrlen : yrlen - 1;
-                        `ADJ_RR: rrlen <= (rrlen == 0)? rrlen : rrlen - 1;
+                        `ADJ_GR: grlen <= (grlen == 1)? grlen : grlen - 1;
+                        `ADJ_YR: yrlen <= (yrlen == 1)? yrlen : yrlen - 1;
+                        `ADJ_RR: rrlen <= (rrlen == 1)? rrlen : rrlen - 1;
                         `NORMAL: begin end
                     endcase
                 end
