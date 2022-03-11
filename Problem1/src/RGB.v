@@ -3,23 +3,35 @@
  * Problem1 implementation
  */
 
+`include "def.v"
+
 module RGB(
     input [1:0]      sw_i,
     output reg [2:0] rgb_o
 );
 
-    // Output color of RGB
-    parameter WHITE  = 3'b111,
-              RED    = 3'b001,
-              GREEN  = 3'b010,
-              YELLOW = 3'b011;
-
     always @(*) begin
         case (sw_i)
-            2'b00: rgb_o = WHITE;
-            2'b01: rgb_o = RED;
-            2'b10: rgb_o = GREEN;
-            2'b11: rgb_o = YELLOW;
+            `WHITE: begin
+                rgb_o[`B_POS] = 1'b1;
+                rgb_o[`G_POS] = 1'b1;
+                rgb_o[`R_POS] = 1'b1;
+            end
+            `RED: begin
+                rgb_o[`B_POS] = 1'b0;
+                rgb_o[`G_POS] = 1'b0;
+                rgb_o[`R_POS] = 1'b1;
+            end
+            `GREEN: begin
+                rgb_o[`B_POS] = 1'b0;
+                rgb_o[`G_POS] = 1'b1;
+                rgb_o[`R_POS] = 1'b0;
+            end
+            `YELLOW: begin
+                rgb_o[`B_POS] = 1'b0;
+                rgb_o[`G_POS] = 1'b1;
+                rgb_o[`R_POS] = 1'b1;
+            end
             default: rgb_o = 3'b000;
         endcase
     end
