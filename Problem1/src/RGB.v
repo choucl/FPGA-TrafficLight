@@ -14,7 +14,7 @@ module RGB(
         case (sw_i)
             `WHITE:  rgb_o = `WHITE_CODE;
             `RED:    rgb_o = `RED_CODE;
-            `GREEN:  reb_o = `GREEN_CODE;
+            `GREEN:  rgb_o = `GREEN_CODE;
             `YELLOW: rgb_o = `YELLOW_CODE;
             default: rgb_o = 3'b000;
         endcase
