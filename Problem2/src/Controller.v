@@ -106,24 +106,24 @@ module Controller (
     always @(*) begin
         if (sw_i == `NORMAL) begin
             case (cstate)
-                GR:      led4_o = `GREEN;
-                YR:      led4_o = `YELLOW;
-                default: led4_o = `RED;
+                GR:      led4_o = `GREEN_CODE;
+                YR:      led4_o = `YELLOW_CODE;
+                default: led4_o = `RED_CODE;
             endcase
             case (cstate)
-                RG:      led5_o = `GREEN;
-                RY:      led5_o = `YELLOW;
-                default: led5_o = `RED;
+                RG:      led5_o = `GREEN_CODE;
+                RY:      led5_o = `YELLOW_CODE;
+                default: led5_o = `RED_CODE;
             endcase
         end else if (sw_i == `ADJ_GR) begin
-            led4_o = `GREEN;
-            led5_o = `RED;
+            led4_o = `GREEN_CODE;
+            led5_o = `RED_CODE;
         end else if (sw_i == `ADJ_YR) begin
-            led4_o = `YELLOW;
-            led5_o = `YELLOW;
+            led4_o = `YELLOW_CODE;
+            led5_o = `YELLOW_CODE;
         end else begin
-            led4_o = `WHITE;
-            led5_o = `WHITE;
+            led4_o = `WHITE_CODE;
+            led5_o = `WHITE_CODE;
         end
     end
 
