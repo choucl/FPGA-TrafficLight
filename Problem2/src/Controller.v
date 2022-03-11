@@ -23,7 +23,7 @@ module Controller (
               RY   = 3'd4,
               RR_2 = 3'd5;
 
-    reg [2:0] current;             // current traffic light state    
+    reg [2:0] cstate;              // current traffic light state    
     reg [`TIME_SZ-1:0] ctime;      // current traffic light count down time
     reg [`TIME_SZ-1:0] grlen = `DEFAULT_GR;
     reg [`TIME_SZ-1:0] yrlen = `DEFAULT_YR;
@@ -31,22 +31,22 @@ module Controller (
     
     always @(posedge time_i or posedge rst_i) begin
         if (rst_i) begin 
-            current <= GR;
+            cstate <= GR;
             ctime   <= `DEFAULT_GR;
         end else begin
             if (ctime != 0) begin          // time != 0, count down
                 ctime <= ctime - 1;
             end else begin                 // time == 0, change state
                 // state transition
-                if (current == RR_2) begin
-                    current <= GR;
+                if (cstate == RR_2) begin
+                    cstate <= GR;
                 end else begin
-                    current <= current + 3'd1;
+                    cstate <= cstate + 3'd1;
                 end
                 // change count down time for new state
-                if (current == GR || current == RG) begin
+                if (cstate == GR || cstate == RG) begin
                     ctime <= grlen;
-                end else if (current == YR || current == RY) begin
+                end else if (cstate == YR || cstate == RY) begin
                     ctime <= yrlen;
                 end else begin
                     ctime <= rrlen;
@@ -56,15 +56,15 @@ module Controller (
     end
 
     // switch/btn control
-    reg [15:0] db_cnt;  // debounce counter
+    reg [27:0] db_cnt;  // debounce counter
     always @(posedge clk_i or posedge rst_i) begin
         if (rst_i) begin
-            db_cnt <= 16'hffff;
+            db_cnt <= 28'h1ffffff;
             grlen  <= `DEFAULT_GR;
             yrlen  <= `DEFAULT_YR;
             rrlen  <= `DEFAULT_RR;
         end else begin
-            if (db_cnt == 16'hffff) begin
+            if (db_cnt == 28'h1ffffff) begin
                 if (btn_i[0] == 1'b1) begin            // reset 
                     db_cnt <= 0;
                     case (sw_i)
@@ -105,12 +105,12 @@ module Controller (
     // change LED color according to different states
     always @(*) begin
         if (sw_i == `NORMAL) begin
-            case (current)
+            case (cstate)
                 GR:      led4_o = `GREEN;
                 YR:      led4_o = `YELLOW;
                 default: led4_o = `RED;
             endcase
-            case (current)
+            case (cstate)
                 RG:      led5_o = `GREEN;
                 RY:      led5_o = `YELLOW;
                 default: led5_o = `RED;
