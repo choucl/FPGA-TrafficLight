@@ -12,26 +12,10 @@ module RGB(
 
     always @(*) begin
         case (sw_i)
-            `WHITE: begin
-                rgb_o[`B_POS] = 1'b1;
-                rgb_o[`G_POS] = 1'b1;
-                rgb_o[`R_POS] = 1'b1;
-            end
-            `RED: begin
-                rgb_o[`B_POS] = 1'b0;
-                rgb_o[`G_POS] = 1'b0;
-                rgb_o[`R_POS] = 1'b1;
-            end
-            `GREEN: begin
-                rgb_o[`B_POS] = 1'b0;
-                rgb_o[`G_POS] = 1'b1;
-                rgb_o[`R_POS] = 1'b0;
-            end
-            `YELLOW: begin
-                rgb_o[`B_POS] = 1'b0;
-                rgb_o[`G_POS] = 1'b1;
-                rgb_o[`R_POS] = 1'b1;
-            end
+            `WHITE:  rgb_o = `WHITE_CODE;
+            `RED:    rgb_o = `RED_CODE;
+            `GREEN:  reb_o = `GREEN_CODE;
+            `YELLOW: rgb_o = `YELLOW_CODE;
             default: rgb_o = 3'b000;
         endcase
     end
