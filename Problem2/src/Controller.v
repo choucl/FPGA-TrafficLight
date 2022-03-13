@@ -34,8 +34,8 @@ module Controller (
             cstate  <= GR;
             ctime   <= `DEFAULT_GR;
         end else begin
-            if (ctime != 0) begin          // time != 0, count down
-                ctime <= ctime - 1;
+            if (ctime != `TIME_SZ'd0) begin          // time != 0, count down
+                ctime <= ctime - `TIME_SZ'd1;
             end else begin                 // time == 0, change state
                 // state transition
                 if (cstate == RR_2) begin
@@ -66,32 +66,38 @@ module Controller (
         end else begin
             if (db_cnt == 28'h1ffffff) begin
                 if (btn_i[0] == 1'b1) begin            // reset 
-                    db_cnt <= 0;
+                    db_cnt <= 28'd0;
                     case (sw_i)
                         `ADJ_GR: grlen <= `DEFAULT_GR;
                         `ADJ_YR: yrlen <= `DEFAULT_YR;
                         `ADJ_RR: rrlen <= `DEFAULT_RR;
-                        `NORMAL: begin end
+                        `NORMAL: ;
                     endcase
                 end else if (btn_i[1] == 1'b1) begin  // add 1 sec
-                    db_cnt <= 0;
+                    db_cnt <= 28'd0;
                     case (sw_i)
-                        `ADJ_GR: grlen <= (grlen == 15)? grlen : grlen + 1;
-                        `ADJ_YR: yrlen <= (yrlen == 15)? yrlen : yrlen + 1;
-                        `ADJ_RR: rrlen <= (rrlen == 15)? rrlen : rrlen + 1;
-                        `NORMAL: begin end
+                        `ADJ_GR: grlen <= (grlen == `TIME_SZ'd15)? 
+                                          grlen : grlen + `TIME_SZ'd1;
+                        `ADJ_YR: yrlen <= (yrlen == `TIME_SZ'd15)? 
+                                          yrlen : yrlen + `TIME_SZ'd1;
+                        `ADJ_RR: rrlen <= (rrlen == `TIME_SZ'd15)? 
+                                          rrlen : rrlen + `TIME_SZ'd1;
+                        `NORMAL: ;
                     endcase
                 end else if (btn_i[2] == 1'b1) begin  // minus 1 sec
-                    db_cnt <= 0;
+                    db_cnt <= 28'd0;
                     case (sw_i)
-                        `ADJ_GR: grlen <= (grlen == 1)? grlen : grlen - 1;
-                        `ADJ_YR: yrlen <= (yrlen == 1)? yrlen : yrlen - 1;
-                        `ADJ_RR: rrlen <= (rrlen == 1)? rrlen : rrlen - 1;
-                        `NORMAL: begin end
+                        `ADJ_GR: grlen <= (grlen == `TIME_SZ'd1)?
+                                          grlen : grlen - `TIME_SZ'd1;
+                        `ADJ_YR: yrlen <= (yrlen == `TIME_SZ'd1)?
+                                          yrlen : yrlen - `TIME_SZ'd1;
+                        `ADJ_RR: rrlen <= (rrlen == `TIME_SZ'd1)? 
+                                          rrlen : rrlen - `TIME_SZ'd1;
+                        `NORMAL: ;
                     endcase
                 end
             end else begin
-                db_cnt <= db_cnt + 1;
+                db_cnt <= db_cnt + 28'd1;
             end
         end
         case (sw_i)
