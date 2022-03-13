@@ -11,13 +11,13 @@ module Clk_divider(
             cnt   <= 26'd0;
             clk_o <= 1'b0;
         end else begin
-            if (cnt == 67108863) begin
+            if (cnt == 26'd67108863) begin
                 cnt <= 26'd0;
             end else begin
-                cnt <= cnt + 1;
+                cnt <= cnt + 26'd1;
             end
             
-            if (cnt < 33554431) begin
+            if (cnt < 26'd33554431) begin
                 clk_o <= 1'b0;
             end else begin
                 clk_o <= 1'b1;
