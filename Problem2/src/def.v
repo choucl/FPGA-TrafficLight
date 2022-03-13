@@ -8,13 +8,30 @@
 `define R_POS 0
 
 /* used colors */
-`define WHITE 2'd0
-`define RED 2'd1
-`define GREEN 2'd2
+`define WHITE  2'd0
+`define RED    2'd1
+`define GREEN  2'd2
 `define YELLOW 2'd3
+
+/* color codes */
+`define WHITE_CODE  3'b111
+`define RED_CODE    3'b001
+`define GREEN_CODE  3'b010
+`define YELLOW_CODE 3'b011
 
 /* controller size define */
 `define SW_SZ 2
 `define BTN_SZ 3
 `define LED_SZ 3    // len for RGB LED
 `define TIME_SZ 4   // len for time
+
+`define DEFAULT_GR 4'd5
+`define DEFAULT_YR 4'd1
+`define DEFAULT_RR 4'd1
+
+/* define adjusting modes */
+`define NORMAL 2'b00
+`define ADJ_GR 2'b01
+`define ADJ_YR 2'b10
+`define ADJ_RR 2'b11
+
