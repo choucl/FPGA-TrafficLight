@@ -24,7 +24,6 @@ module Controller (
               RR_2 = 3'd5;
 
     reg [2:0] cstate;              // current traffic light state    
-    reg [2:0] pstate;              // last traffic light state    
     reg [`TIME_SZ-1:0] ctime;      // current traffic light count down time
     reg [`TIME_SZ-1:0] grlen = `DEFAULT_GR;
     reg [`TIME_SZ-1:0] yrlen = `DEFAULT_YR;
@@ -32,7 +31,6 @@ module Controller (
     
     always @(posedge time_i or posedge rst_i) begin
         if (rst_i == 1'b1) begin 
-            pstate  <= RR_2;
             cstate  <= GR;
             ctime   <= `DEFAULT_GR;
         end else begin
@@ -45,18 +43,13 @@ module Controller (
                 end else begin
                     cstate <= cstate + 3'd1;
                 end
-                if (pstate == RR_2) begin
-                    pstate <= GR;
-                end else begin
-                    pstate <= pstate + 3'd1;
-                end
                 // change count down time for new state
-                if (pstate == GR || pstate == RG) begin
-                    ctime <= grlen;
-                end else if (pstate == YR || pstate == RY) begin
+                if (cstate == GR || cstate == RG) begin
                     ctime <= yrlen;
-                end else begin
+                end else if (cstate == YR || cstate == RY) begin
                     ctime <= rrlen;
+                end else begin
+                    ctime <= grlen;
                 end
             end
         end
