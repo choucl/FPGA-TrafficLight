@@ -36,7 +36,7 @@ module Controller (
         end else begin
             if (ctime != `TIME_SZ'd0) begin          // time != 0, count down
                 ctime <= ctime - `TIME_SZ'd1;
-            end else begin                 // time == 0, change state
+            end else begin                           // time == 0, change state
                 // state transition
                 if (cstate == RR_2) begin
                     cstate <= GR;
@@ -45,11 +45,11 @@ module Controller (
                 end
                 // change count down time for new state
                 if (cstate == GR || cstate == RG) begin
-                    ctime <= grlen;
-                end else if (cstate == YR || cstate == RY) begin
                     ctime <= yrlen;
-                end else begin
+                end else if (cstate == YR || cstate == RY) begin
                     ctime <= rrlen;
+                end else begin
+                    ctime <= grlen;
                 end
             end
         end
