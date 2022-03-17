@@ -1,11 +1,11 @@
 /*  
- * RGB.v
+ * Decoder.v
  * Problem1 implementation
  */
 
 `include "def.v"
 
-module RGB(
+module Decoder(
     input [1:0]      sw_i,
     output reg [2:0] rgb_o
 );
