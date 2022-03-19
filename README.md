@@ -1,7 +1,5 @@
 # FPGA-TrafficLight
 
-# FPGA-TrafficLight
-
 >  2022 Spring NCKU FPGA Course
 >
 >  Homework 1 
@@ -25,7 +23,7 @@ This project uses **PYNQ-Z2** to implement an RGB control circuit.
 
 ### Modules
 
-`Decoder.v` is the only module used in this project which maps the input switch to output RGB color. 
+`Decoder.v` is the only module used in this project which maps the input switch to output RGB color. We decode the input signal( `sw_i[1:0]` ) using a `case` statement and the corresponding output(`rgb_o[2:0]`) will determined the color of RGB LEDs.    
 
 ### Schematic
 
@@ -90,13 +88,15 @@ The transitions between states occur automatically when the remaining time( `c_t
 </table>
 
 
-A debounce circuit is used here for `BTN` .
+We use a debounce counter(`db_cnt[27:0]`) here to implement a **debounce circuit** for the buttons. The value of the debounce counter will be set to zero when the button is pressed at `posedge clk_i` and accumulated in each cycle until the value reaches `28'h1fffffff`. When the value of the debounce counter is less than `28'h1ffffffff`, the controller will ignore any action on the buttons.
 
 ### Modules
 
 1. **Controller** module
 
-   Major part in this project, controlling the state transition and handling user input(switch and button).
+   The major part in this project, controlling the state transition and handling user input(switch and button).
+
+   In this module, state transitions, user input handling, and LEDs are controlled by sequential logic, while combinational logic is responsible for the output color of RGB LEDs.
 
 2. **Clk_divider** module
 
